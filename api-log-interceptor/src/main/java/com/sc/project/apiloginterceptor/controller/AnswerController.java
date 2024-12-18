@@ -4,6 +4,7 @@ import com.sc.project.apiloginterceptor.exception.ResourceNotFoundException;
 import com.sc.project.apiloginterceptor.model.Answer;
 import com.sc.project.apiloginterceptor.repository.AnswerRepository;
 import com.sc.project.apiloginterceptor.repository.QuestionRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@SecurityRequirement(name = "oauth2")
 @RestController
 public class AnswerController {
 

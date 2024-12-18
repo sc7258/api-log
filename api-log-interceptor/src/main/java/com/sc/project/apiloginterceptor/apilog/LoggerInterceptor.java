@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -34,6 +36,18 @@ public class LoggerInterceptor implements HandlerInterceptor {
         request.setAttribute("traceId", UUID.randomUUID().toString());
         log.debug("preHandle, traceId:{}", request.getAttribute("traceId"));
 
+        if (!(handler instanceof HandlerMethod)) return true;
+
+        final Jwt jwtToken = ((Jwt) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal());
+
+        //log.info("id = {}", user.getId());
+        val userId = jwtToken.getClaims().getOrDefault("sub", "");
+        val userName = jwtToken.getClaims().getOrDefault("preferred_username", "");
+        log.info("id={}", userId);
+        log.info("preferred_username = {}", userName);
+
         val cachingRequest = (ContentCachingRequestWrapper) request;
         //val cachingResponse = (ContentCachingResponseWrapper) response;
 
@@ -48,6 +62,8 @@ public class LoggerInterceptor implements HandlerInterceptor {
                 //.setResponse(getResponseBody(cachingResponse))
                 .setRequestTime(java.time.LocalDateTime.now())
                 //.setResponseTime(java.time.LocalDateTime.now())
+                .setUserId(userId.toString())
+                .setUserName(userName.toString())
                 ;
 
         apiLogRepository.save(apiLog);
@@ -59,6 +75,9 @@ public class LoggerInterceptor implements HandlerInterceptor {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         log.debug("postHandle, traceId:{}", request.getAttribute("traceId"));
         if (!(handler instanceof HandlerMethod)) return;
+
+//        if (!(request instanceof ContentCachingRequestWrapper)) return;
+//        if (!(response instanceof ContentCachingResponseWrapper)) return;
 
         val cachingRequest = (ContentCachingRequestWrapper) request;
         val cachingResponse = (ContentCachingResponseWrapper) response;
@@ -88,6 +107,9 @@ public class LoggerInterceptor implements HandlerInterceptor {
         log.debug("afterCompletion, traceId:{}", request.getAttribute("traceId"));
 
         if (!(handler instanceof HandlerMethod)) return;
+
+//        if (!(request instanceof ContentCachingRequestWrapper)) return;
+//        if (!(response instanceof ContentCachingResponseWrapper)) return;
 
         val cachingRequest = (ContentCachingRequestWrapper) request;
         val cachingResponse = (ContentCachingResponseWrapper) response;

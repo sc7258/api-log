@@ -3,6 +3,7 @@ package com.sc.project.apiloginterceptor.controller;
 import com.sc.project.apiloginterceptor.exception.ResourceNotFoundException;
 import com.sc.project.apiloginterceptor.model.Question;
 import com.sc.project.apiloginterceptor.repository.QuestionRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@SecurityRequirement(name = "oauth2")
 @RestController
 public class QuestionController {
 

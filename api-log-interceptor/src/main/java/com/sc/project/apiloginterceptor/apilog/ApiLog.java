@@ -45,6 +45,9 @@ public class ApiLog {
     @Column(length = 4096)
     private String response;
 
+    private String userId;
+    private String userName;
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false, updatable = false)
     @CreatedDate

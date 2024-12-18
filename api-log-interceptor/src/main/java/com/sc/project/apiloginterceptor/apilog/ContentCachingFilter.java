@@ -16,7 +16,7 @@ import org.springframework.web.util.ContentCachingResponseWrapper;
 import java.io.IOException;
 
 @Slf4j
-@Order(value = Ordered.HIGHEST_PRECEDENCE)
+@Order(value = Ordered.LOWEST_PRECEDENCE)
 @Component
 @WebFilter(filterName = "ContentCachingFilter ", urlPatterns = "/*")
 public class ContentCachingFilter extends OncePerRequestFilter {

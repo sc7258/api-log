@@ -33,3 +33,41 @@ spring:
 #                globally_quoted_identifiers: true
 #                # dialect: org.hibernate.dialect.MariaDB103Dialect
 #                # dialect: org.hibernate.dialect.MariaDBDialect
+
+    security:
+        oauth2:
+            resourceserver:
+                jwt:
+                    issuer-uri: ${keycloak.auth-server-url}/realms/${keycloak.realm}
+#                    jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+
+    mvc:
+        pathmatch:
+            matching-strategy: ANT_PATH_MATCHER
+
+springdoc:
+    swagger-ui:
+        oauth:
+            clientId: ${keycloak.resource}
+            clientSecret: ${keycloak.credentials.secret}
+    oAuthFlow:
+        authorizationUrl: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/auth
+        tokenUrl: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/token
+
+
+keycloak:
+    #    ignoreInvalidFields: true
+    #    ignoreUnknownFields: true
+    realm: platform-dev
+    auth-server-url: https://accounts-dev.intelliantech.com
+    ssl-required: external
+    resource: ids-spring-client # client ID
+    use-resource-role-mappings: true
+    bearer-only: true
+    #    authority-prefix: ROLE_
+    connection-timeout: 6000
+    credentials:
+        secret: YwAn9x9jQwyfnuvqhNe1B0H6A6bW1lOP
+#        secret: VFf3jfGawqjXX5MBlpX362lJTEFOTNuR
+
+
