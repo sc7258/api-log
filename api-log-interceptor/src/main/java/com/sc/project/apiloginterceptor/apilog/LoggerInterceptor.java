@@ -72,6 +72,7 @@ public class LoggerInterceptor implements HandlerInterceptor {
 
     /**
      * 성공/실패에 상관없이 이 핸들러로 처리가 가능하다!
+     * check!! - 왜 오류가 났을때도 response status가 200으로 설정되어 있는거지??
      *
      * @param request current HTTP request
      * @param response current HTTP response
@@ -89,14 +90,12 @@ public class LoggerInterceptor implements HandlerInterceptor {
         if (!(handler instanceof HandlerMethod)) return;
 
         val cachingRequest = (ContentCachingRequestWrapper) request;
-//        val cachingResponse = (ContentCachingResponseWrapper) response;
+        val cachingResponse = (ContentCachingResponseWrapper) response;
 
         apiLogRepository.updateRequest(
                 cachingRequest.getAttribute("traceId").toString(),
                 getRequestBody(cachingRequest)
         );
-
-
     }
 
 
