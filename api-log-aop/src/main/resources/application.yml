@@ -1,0 +1,36 @@
+logging:
+    level:
+        root: INFO
+        web: DEBUG
+        com:
+            sc:
+                project: DEBUG
+spring:
+    application:
+        name: api-log-aop
+
+
+    datasource:
+        url: jdbc:mariadb://127.0.0.1:3306/API_LOG_AOP?useSSL=false
+        username: user
+        password: password
+        driver-class-name: org.mariadb.jdbc.Driver
+        hikari:
+            maximum-pool-size: 2
+
+    jpa:
+        #open-in-view: false
+        hibernate:
+            # ddl-auto: create
+            ddl-auto: update
+            # hbm2ddl.auto: update
+        #      naming:
+        #        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        #        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+#        properties:
+#            hibernate:
+#                show_sql: true
+#                format_sql: true
+#                globally_quoted_identifiers: true
+#                # dialect: org.hibernate.dialect.MariaDB103Dialect
+#                # dialect: org.hibernate.dialect.MariaDBDialect
